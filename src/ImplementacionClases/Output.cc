@@ -59,12 +59,12 @@ Output::~Output() {}
  * @param v El vector de enteros a mostrar.
  */
 void 
-Output::MostrarVector(const std::vector<int>& v) {
+Output::MostrarVector(const std::pair<std::vector<int>,int>& v) {
   if (fichero_ != "") { 
     std::ofstream file(fichero_, std::ios::app);
     if (file.is_open()) {
       file << "[ ";
-      for (int num : v) {
+      for (int num : v.first) {
         file << num << " ";
       }
       file << "]" << std::endl;
@@ -73,10 +73,24 @@ Output::MostrarVector(const std::vector<int>& v) {
     }
   } else {
     std::cout << "[ ";
-    for (int num : v) {
+    for (int num : v.first) {
       std::cout << num << " ";
     }
     std::cout << "]" << std::endl;
+  }
+}
+
+void
+Output::MostrarNivelArbol(const std::pair<std::vector<int>,int>& v) {
+  if (fichero_ != "") { 
+    std::ofstream file(fichero_, std::ios::app);
+    if (file.is_open()) {
+      file << "Tamaño maximo del arbol = " << v.second << std::endl;
+    } else {
+      std::cerr << "Error al abrir el archivo " << fichero_ << std::endl;
+    }
+  } else {
+    std::cout << "Tamaño maximo del arbol = " << v.second << std::endl;
   }
 }
 
@@ -93,12 +107,12 @@ Output::MostrarVector(const std::vector<int>& v) {
  * @param n El tamaño del vector, que se utiliza en la salida para mostrar el tamaño del problema.
  */
 void 
-Output::medirTiempoEjecucion(DyV* algoritmo, const std::vector<int>& A, const int n) {
+Output::medirTiempoEjecucion(DyV* algoritmo, const std::pair<std::vector<int>,int>& A, const int n) {
   if (fichero_ != "") { 
     std::ofstream file(fichero_, std::ios::app);
     if (file.is_open()) {
     auto inicio = std::chrono::high_resolution_clock::now();
-    algoritmo->Resolver(A, A.size());
+    algoritmo->Resolver(A, A.first.size());
     auto fin = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> duracion = fin - inicio;
     file << "Tiempo de ejecución("<< n << "): " << duracion.count() << " ms\n";
@@ -107,7 +121,7 @@ Output::medirTiempoEjecucion(DyV* algoritmo, const std::vector<int>& A, const in
     }
   } else {
     auto inicio = std::chrono::high_resolution_clock::now();
-    algoritmo->Resolver(A, A.size());
+    algoritmo->Resolver(A, A.first.size());
     auto fin = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> duracion = fin - inicio;
     std::cout << "Tiempo de ejecución("<< n << "): " << duracion.count() << " ms\n";

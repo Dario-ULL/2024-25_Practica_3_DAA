@@ -17,13 +17,13 @@
 
 class QuickSort: public DyV {
  protected:
-  bool Pequeno(std::vector<int> vector);
-  std::vector<int> resolverPequeno(std::vector<int> vector);
-  std::vector<std::vector<int>> Divide(std::vector<int> vector, int tamano);
-  std::vector<int> Combine(std::vector<int> vector1, std::vector<int> vector2);
-  std::string numSubProblemas();
-  std::string factorReduccion();
-  std::string tiempoCombinacion();
+ bool Pequeno(std::pair<std::vector<int>,int>  vector);
+ std::pair<std::vector<int>,int>  resolverPequeno(std::pair<std::vector<int>,int>  vector);
+ std::vector<std::pair<std::vector<int>,int> > Divide(std::pair<std::vector<int>,int>  vector, int tamano);
+ std::pair<std::vector<int>,int>  Combine(std::pair<std::vector<int>,int>  vector1, std::pair<std::vector<int>,int>  vector2);
+ std::string numSubProblemas();
+ std::string factorReduccion();
+ std::string tiempoCombinacion();
 };
 
 #endif

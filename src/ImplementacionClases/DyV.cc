@@ -24,15 +24,15 @@
  * @param tamano El tamaño del vector.
  * @return Un vector que contiene la solución combinada de los subproblemas.
  */
-std::vector<int> 
-DyV::Resolver(std::vector<int> vector, int tamano) {
+std::pair<std::vector<int>,int>
+DyV::Resolver(std::pair<std::vector<int>,int> vector, int tamano) {
   if (Pequeno(vector)) {
     return resolverPequeno(vector);
   } else {
-    std::vector<std::vector<int>> m = Divide(vector, tamano);
-    std::vector<int> S1 = Resolver(m[0], m[0].size());
-    std::vector<int> S2 = Resolver(m[1], m[1].size());
-    std::vector<int> S = Combine(S1, S2);
+    std::vector<std::pair<std::vector<int>,int>> m = Divide(vector, tamano);
+    std::pair<std::vector<int>,int> S1 = Resolver(m[0], m[0].first.size());
+    std::pair<std::vector<int>,int> S2 = Resolver(m[1], m[1].first.size());
+    std::pair<std::vector<int>,int> S = Combine(S1, S2);
     return S;
   }
 }

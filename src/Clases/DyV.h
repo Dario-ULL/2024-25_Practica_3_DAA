@@ -20,17 +20,17 @@
 
 class DyV {
  protected:
-  virtual bool Pequeno(std::vector<int> vector) = 0;
-  virtual std::vector<int> resolverPequeno(std::vector<int> vector) = 0;
-  virtual std::vector<std::vector<int>> Divide(std::vector<int> vector, int tamano) = 0;
-  virtual std::vector<int> Combine(std::vector<int> vector1, std::vector<int> vector2) = 0;
+  virtual bool Pequeno(std::pair<std::vector<int>,int>  vector) = 0;
+  virtual std::pair<std::vector<int>,int> resolverPequeno(std::pair<std::vector<int>,int>  vector) = 0;
+  virtual std::vector<std::pair<std::vector<int>,int> > Divide(std::pair<std::vector<int>,int>  vector, int tamano) = 0;
+  virtual std::pair<std::vector<int>,int>  Combine(std::pair<std::vector<int>,int>  vector1, std::pair<std::vector<int>,int>  vector2) = 0;
   virtual std::string numSubProblemas() = 0;
   virtual std::string factorReduccion() = 0;
   virtual std::string tiempoCombinacion() = 0;
  public:
   DyV() {}
   ~DyV() {}
-  std::vector<int> Resolver(std::vector<int> vector, int tamano);
+  std::pair<std::vector<int>,int>  Resolver(std::pair<std::vector<int>,int> vector, int tamano);
   std::string recurrencia();
 };
 

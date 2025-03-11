@@ -59,15 +59,19 @@ void
 procesarConDebug(DyV* algoritmo, int argc, char* argv[]) {
 	std::cout << "Debug" << std::endl;
 	int n = std::stoi(argv[3]);
-	std::vector<int> vector = generar_vector(n);
+	std::pair<std::vector<int>,int> vector(generar_vector(n), 0);
 	if (argc == 5) {
 		Output output(argv[4]);
 		output.MostrarVector(vector);
-		output.MostrarVector(algoritmo->Resolver(vector, vector.size()));
+		vector = algoritmo->Resolver(vector, vector.first.size());
+		output.MostrarVector(vector);
+		output.MostrarNivelArbol(vector);
 	} else {
 		Output output;
 		output.MostrarVector(vector);
-		output.MostrarVector(algoritmo->Resolver(vector, vector.size()));
+		vector = algoritmo->Resolver(vector, vector.first.size());
+		output.MostrarVector(vector);
+		output.MostrarNivelArbol(vector);	
 	}
 }
 
@@ -88,13 +92,13 @@ procesarSinDebug(DyV* algoritmo, int argc, char* argv[]) {
 		Output output(argv[2]);
 		for (int n : {10, 100, 10000}) {
 			std::vector<int> vector = generar_vector(n);
-			output.medirTiempoEjecucion(algoritmo, vector, n);
+			output.medirTiempoEjecucion(algoritmo, {vector, 0}, n);
 		}
 	} else {
 		Output output;
 		for (int n : {10, 100, 10000}) {
 			std::vector<int> vector = generar_vector(n);
-			output.medirTiempoEjecucion(algoritmo, vector, n);
+			output.medirTiempoEjecucion(algoritmo, {vector, 0}, n);
 		}
 	}
 }

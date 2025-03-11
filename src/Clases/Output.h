@@ -28,8 +28,9 @@ class Output {
   Output();
   Output(std::string fichero);
   ~Output();
-  void MostrarVector(const std::vector<int>& v);
-  void medirTiempoEjecucion(DyV* algoritmo, const std::vector<int>& A, const int n);
+  void MostrarVector(const std::pair<std::vector<int>,int>& v);
+  void MostrarNivelArbol(const std::pair<std::vector<int>,int>& v);
+  void medirTiempoEjecucion(DyV* algoritmo, const std::pair<std::vector<int>,int>& A, const int n);
 };
 
 #endif

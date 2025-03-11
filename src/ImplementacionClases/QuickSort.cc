@@ -24,8 +24,8 @@
  * @return false Si el vector tiene más de 1 elemento.
  */
 bool 
-QuickSort::Pequeno(std::vector<int> vector) {
-  return vector.size() <= 1;
+QuickSort::Pequeno(std::pair<std::vector<int>,int> vector) {
+  return vector.first.size() <= 1;
 }
 
 /**
@@ -38,8 +38,8 @@ QuickSort::Pequeno(std::vector<int> vector) {
  * @param vector El vector a devolver.
  * @return El mismo vector sin modificaciones.
  */
-std::vector<int> 
-QuickSort::resolverPequeno(std::vector<int> vector) {
+std::pair<std::vector<int>,int>
+QuickSort::resolverPequeno(std::pair<std::vector<int>,int> vector) {
   return vector;
 }
 
@@ -55,21 +55,23 @@ QuickSort::resolverPequeno(std::vector<int> vector) {
  * @return Un vector que contiene dos subvectores: uno con elementos 
  *         menores al pivote y otro con los mayores o iguales.
  */
-std::vector<std::vector<int>> 
-QuickSort::Divide(std::vector<int> vector, int tamano) {
-  if (vector.size() <= 1) {
+std::vector<std::pair<std::vector<int>,int>> 
+QuickSort::Divide(std::pair<std::vector<int>,int> vector, int tamano) {
+  if (vector.first.size() <= 1) {
     return {vector, {}};
   }
-  int pivot = vector[tamano - 1];
-  std::vector<int> izquierda, derecha;
-  derecha.push_back(pivot);
+  int pivot = vector.first[tamano - 1];
+  std::pair<std::vector<int>,int> izquierda, derecha;
+  derecha.first.push_back(pivot);
   for (int i = 0; i < tamano - 1; ++i) {
-    if (vector[i] < pivot) {
-      izquierda.push_back(vector[i]);
+    if (vector.first[i] < pivot) {
+      izquierda.first.push_back(vector.first[i]);
     } else {
-      derecha.push_back(vector[i]);
+      derecha.first.push_back(vector.first[i]);
     }
   }
+  izquierda.second = vector.second++;
+  derecha.second = vector.second++;
   return {izquierda, derecha};
 }
 
@@ -83,11 +85,16 @@ QuickSort::Divide(std::vector<int> vector, int tamano) {
  * @param vector2 El segundo vector a combinar.
  * @return Un vector que contiene los elementos de ambos vectores.
  */
-std::vector<int> 
-QuickSort::Combine(std::vector<int> vector1, std::vector<int> vector2) {
-  std::vector<int> solucion;
+std::pair<std::vector<int>,int>
+QuickSort::Combine(std::pair<std::vector<int>,int> vector1, std::pair<std::vector<int>,int> vector2) {
+  std::pair<std::vector<int>,int> solucion;
   solucion = vector1;  
-  solucion.insert(solucion.end(), vector2.begin(), vector2.end());
+  solucion.first.insert(solucion.first.end(), vector2.first.begin(), vector2.first.end());
+  if (vector1.second > vector2.second) {
+    solucion.second = vector1.second;
+  } else {
+    solucion.second = vector2.second;
+  }
   return solucion;
 }
 

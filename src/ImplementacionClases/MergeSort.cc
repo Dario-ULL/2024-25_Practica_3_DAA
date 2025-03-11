@@ -23,8 +23,8 @@
  * @return Verdadero si el tamaño del vector es menor o igual a 1, falso en caso contrario.
  */
 bool 
-MergeSort::Pequeno(std::vector<int> vector) {
-  return vector.size() <= 1;
+MergeSort::Pequeno(std::pair<std::vector<int>,int> vector) {
+  return vector.first.size() <= 1;
 }
 
 /**
@@ -36,8 +36,8 @@ MergeSort::Pequeno(std::vector<int> vector) {
  * @param vector El vector a resolver.
  * @return El mismo vector como resultado.
  */
-std::vector<int> 
-MergeSort::resolverPequeno(std::vector<int> vector) {
+std::pair<std::vector<int>,int>
+MergeSort::resolverPequeno(std::pair<std::vector<int>,int> vector) {
   return vector;
 }
 
@@ -52,11 +52,15 @@ MergeSort::resolverPequeno(std::vector<int> vector) {
  * @param tamano El tamaño del vector, aunque no se utiliza directamente en este método.
  * @return Un vector de dos subvectores que contienen las partes divididas.
  */
-std::vector<std::vector<int>> 
-MergeSort::Divide(std::vector<int> vector, int tamano) {
-  int medio = vector.size()/2;
-  std::vector<int> izquierda(vector.begin(), vector.begin() + medio);
-  std::vector<int> derecha(vector.begin() + medio, vector.end());
+std::vector<std::pair<std::vector<int>,int>> 
+MergeSort::Divide(std::pair<std::vector<int>,int> vector, int tamano) {
+  int medio = vector.first.size()/2;
+  std::pair<std::vector<int>,int> izquierda;
+  izquierda.first = std::vector<int>(vector.first.begin(), vector.first.begin() + medio);
+  izquierda.second = vector.second++;
+  std::pair<std::vector<int>,int> derecha;
+  derecha.first = std::vector<int>(vector.first.begin() + medio, vector.first.end());
+  derecha.second = vector.second++;
   return {izquierda, derecha};
 }
 
@@ -71,26 +75,31 @@ MergeSort::Divide(std::vector<int> vector, int tamano) {
  * @param vector2 El segundo subvector a combinar.
  * @return Un vector que contiene los elementos de los dos subvectores, ordenados.
  */
-std::vector<int> 
-MergeSort::Combine(std::vector<int> vector1, std::vector<int> vector2) {
-  std::vector<int> resultado;
+std::pair<std::vector<int>,int>
+MergeSort::Combine(std::pair<std::vector<int>,int>vector1, std::pair<std::vector<int>,int> vector2) {
+  std::pair<std::vector<int>,int> resultado;
   size_t i = 0;
   size_t j = 0;
-  while (i < vector1.size() && j < vector2.size()) {
-    if (vector1[i] < vector2[j]) {
-      resultado.push_back(vector1[i]);
+  while (i < vector1.first.size() && j < vector2.first.size()) {
+    if (vector1.first[i] < vector2.first[j]) {
+      resultado.first.push_back(vector1.first[i]);
       i++;
     } else {
-      resultado.push_back(vector2[j]);
+      resultado.first.push_back(vector2.first[j]);
       j++;
     }
   }
-  while (i < vector1.size()) {
-    resultado.push_back(vector1[i++]);
+  while (i < vector1.first.size()) {
+    resultado.first.push_back(vector1.first[i++]);
   }
-  while (j < vector2.size()) {
-    resultado.push_back(vector2[j++]);
+  while (j < vector2.first.size()) {
+    resultado.first.push_back(vector2.first[j++]);
   }  
+  if (vector1.second > vector2.second) {
+    resultado.second = vector1.second;
+  } else {
+    resultado.second = vector2.second;
+  }
   return resultado;
 }
 
